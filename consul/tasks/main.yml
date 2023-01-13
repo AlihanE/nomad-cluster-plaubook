@@ -1,0 +1,63 @@
+---
+# tasks file for consul
+ - name: check consul file
+   stat:
+           path: "/var/tmp/consul_{{consul_version}}.zip"
+   register: check_consul_zip
+ - name: download consul
+   get_url:
+           url: https://releases.hashicorp.com/consul/{{consul_version}}/consul_{{consul_version}}_linux_amd64.zip
+           dest: "/var/tmp/consul_{{consul_version}}.zip"
+   when: not check_consul_zip.stat.exists
+ - name: create unzip dir
+   file:
+           path: "/var/tmp/consul_{{consul_version}}"
+           state: directory
+ - name: check consul file
+   stat:
+           path: /usr/local/bin/consul
+   register: check_consul_bin
+ - name: unzip consul
+   unarchive:
+           src: "/var/tmp/consul_{{consul_version}}.zip"
+           copy: no
+           dest: /usr/local/bin
+   when: not check_consul_bin.stat.exists
+ - name: change owner
+   file:
+           path: /usr/local/bin/consul
+           owner: root
+           group: root
+ - name: check consul
+   shell: consul version
+   register: check_consul
+ - debug: msg="{{check_consul.stdout}}"
+ - name: create consul user
+   user:
+           name: consul
+           system: true
+           home: /etc/consul.d
+           shell: /bin/false
+ - name: create consul config dir
+   file:
+           path: /etc/consul.d
+           state: directory
+           owner: 0700
+ - name: create consul data dir
+   file:
+           path: /var/consul
+           state: directory
+ - name: configure consul
+   template:
+           src: config.json
+           dest: /etc/consul.d/
+   notify:
+           - restart consul
+ - name: configure nomad service
+   template:
+           src: consul.service
+           dest: /etc/systemd/system/
+           owner: root
+           mode: 0700
+   notify:
+           - reload systemd

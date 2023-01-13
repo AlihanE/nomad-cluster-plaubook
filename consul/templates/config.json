@@ -1,0 +1,24 @@
+{
+    "bootstrap_expect": 3,
+    "client_addr": "0.0.0.0",
+    "datacenter": "test-dc",
+    "data_dir": "/var/consul",
+    "domain": "consul",
+    "enable_script_checks": true,
+    "dns_config": {
+        "enable_truncate": true,
+        "only_passing": true
+    },
+    "enable_syslog": true,
+    "encrypt": "{{secret_key}}",
+    "leave_on_terminate": true,
+    "log_level": "INFO",
+    "rejoin_after_leave": true,
+    "server": true,
+    "start_join": [
+        "172.28.44.70",
+        "172.28.44.59",
+        "172.28.37.221"
+    ],
+    "ui": true
+}

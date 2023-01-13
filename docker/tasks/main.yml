@@ -1,0 +1,24 @@
+---
+# tasks file for docker
+ - name: install docker deps
+   apt:
+           pkg:
+                   - ca-certificates
+                   - apt-transport-https
+                   - curl
+                   - software-properties-common
+           state: latest
+           update_cache: true
+ - name: add docker key
+   apt_key:
+           url: https://download.docker.com/linux/ubuntu/gpg
+           state: present
+ - name: add docker repo
+   apt_repository:
+           repo: deb https://download.docker.com/linux/ubuntu bionic stable
+           state: present
+ - name: install docker
+   apt:
+           name: docker-ce
+           state: latest
+           update_cache: true

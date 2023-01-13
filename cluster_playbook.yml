@@ -1,0 +1,8 @@
+ - name: install nomad cluster
+   hosts: nomad
+   become: yes
+   roles:
+           - default
+           - consul
+           - nomad
+           - docker

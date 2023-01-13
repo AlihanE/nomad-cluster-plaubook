@@ -1,0 +1,12 @@
+---
+# tasks file for default
+ - name: check current timezone
+   shell: cat /etc/timezone
+   register: current_zone
+ - name: set timezone
+   shell: timedatectl set-timezone {{ my_timezone }}
+   when: current_zone.stdout != my_timezone
+ - name: make sure time service is started
+   systemd:
+           name: systemd-timesyncd
+           state: started

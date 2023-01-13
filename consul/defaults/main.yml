@@ -1,0 +1,4 @@
+---
+# defaults file for consul
+consul_version: '1.14.3'
+secret_key: 'qXP7KwTpfu/daaoItdz3/i5yxsbnWROqsCJ20v/McHQ='

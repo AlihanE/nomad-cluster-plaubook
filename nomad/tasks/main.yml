@@ -1,0 +1,59 @@
+---
+# tasks file for nomad
+ - name: check zip file
+   stat:
+           path: "/var/tmp/nomad_{{ nomad_version }}_linux_amd64.zip"
+   register: nomad_zip_file
+ - name: download nomad
+   get_url:
+           url: https://releases.hashicorp.com/nomad/{{nomad_version}}/nomad_{{nomad_version}}_linux_amd64.zip
+           dest: /var/tmp/nomad_{{nomad_version}}.zip
+   when: not nomad_zip_file.stat.exists
+ - name: check nomad bin
+   stat:
+           path: /usr/local/bin/nomad
+   register: nomad_bin
+ - name: unzip nomad
+   unarchive:
+           src: /var/tmp/nomad_{{nomad_version}}.zip
+           copy: no
+           dest: /usr/local/bin
+   when: not nomad_bin.stat.exists
+ - name: change owner
+   file:
+           path: /usr/local/bin/nomad
+           owner: root
+           group: root
+ - name: check nomad
+   shell: nomad version
+   register: nomad_check
+ - debug: msg="{{nomad_check.stdout}}"
+ - name: create nomad user
+   user:
+           name: nomad
+           system: true
+           home: /etc/nomad.d
+           shell: /bin/false
+ - name: create nomad config dir
+   file:
+           path: /etc/nomad.d
+           state: directory
+           owner: 0700
+ - name: create nomad data dir
+   file:
+           path: /var/nomad
+           state: directory
+ - name: configure nomad
+   template:
+           src: nomad.hcl
+           dest: /etc/nomad.d/
+   notify:
+           - restart nomad
+ - name: config nomad service
+   template:
+           src: nomad.service
+           dest: /etc/systemd/system
+           owner: root
+           mode: 0700
+   notify:
+           - reload systemd
