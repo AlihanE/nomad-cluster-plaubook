@@ -1,6 +1,8 @@
 {
     "bootstrap_expect": 3,
     "client_addr": "0.0.0.0",
+    "bind_addr": "{{ansible_default_ipv4.address}}",
+    "advertise_addr": "{{ansible_default_ipv4.address}}", 
     "datacenter": "test-dc",
     "data_dir": "/var/consul",
     "domain": "consul",
@@ -16,9 +18,9 @@
     "rejoin_after_leave": true,
     "server": true,
     "start_join": [
-        "172.28.44.70",
-        "172.28.44.59",
-        "172.28.37.221"
+        "172.28.42.20",
+        "172.28.36.42",
+        "172.28.46.124"
     ],
     "ui": true
 }

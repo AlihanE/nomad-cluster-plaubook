@@ -1,4 +1,4 @@
 [nomad]
-nomad1 ansible_host=172.28.37.221 ansible_user=remad1 ansible_password='{{nomad1_user_pass}}' ansible_become_password='{{nomad1_user_pass}}'
-nomad2 ansible_host=172.28.44.59 ansible_user=remad2 ansible_password='{{nomad2_user_pass}}' ansible_become_password='{{nomad2_user_pass}}'
-nomad3 ansible_host=172.28.44.70 ansible_user=remad3 ansible_password='{{nomad3_user_pass}}' ansible_become_password='{{nomad3_user_pass}}'
+nomad1 ansible_host=172.28.42.20 ansible_user=remad1 ansible_password='{{nomad1_user_pass}}' ansible_become_password='{{nomad1_user_pass}}'
+nomad2 ansible_host=172.28.36.42 ansible_user=remad1 ansible_password='{{nomad1_user_pass}}' ansible_become_password='{{nomad1_user_pass}}'
+nomad3 ansible_host=172.28.46.124 ansible_user=remad1 ansible_password='{{nomad1_user_pass}}' ansible_become_password='{{nomad1_user_pass}}'
